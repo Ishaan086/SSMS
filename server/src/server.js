@@ -19,6 +19,20 @@ app.use('/api/auth',rateLimit({windowMs:15*60*1000,limit:60}));
 app.get('/api/health',(req,res)=>res.json({ok:true,service:'SSMS API'}));
 app.use('/api',api);
 app.use((err,req,res,next)=>{console.error(err);res.status(err.status||500).json({message:err.message||'Server error'});});
-const port=process.env.PORT||5000;
-if(!process.env.MONGO_URI||!process.env.JWT_SECRET){console.error('Set MONGO_URI and JWT_SECRET in server/.env');process.exit(1);}
-mongoose.connect(process.env.MONGO_URI).then(()=>app.listen(port,()=>console.log(`SSMS API running on http://localhost:${port}`))).catch(e=>{console.error('MongoDB connection failed:',e.message);process.exit(1);});
+const PORT = process.env.PORT || 5000;
+
+if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
+  console.error("Set MONGO_URI and JWT_SECRET");
+  process.exit(1);
+}
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`SSMS API running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection failed:", err);
+    process.exit(1);
+  });
