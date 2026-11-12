@@ -1,8 +1,4 @@
 
-import dns from "node:dns";
-
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
-
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -13,12 +9,14 @@ import rateLimit from 'express-rate-limit';
 import api from './routes/api.js';
 
 const app = express();
+const BUILD_ID = 'ssms-render-fix-2026-11-13';
 
 // Root route
 app.get('/', (req, res) => {
   res.json({
     message: 'Student Skill Management System API',
     status: 'Running',
+    build: BUILD_ID,
     health: '/api/health'
   });
 });
@@ -40,7 +38,7 @@ app.use('/api/auth', rateLimit({
 }));
 
 app.get('/api/health', (req, res) =>
-  res.json({ ok: true, service: 'SSMS API' })
+  res.status(200).json({ ok: true, service: 'SSMS API', build: BUILD_ID })
 );
 
 app.use('/api', api);

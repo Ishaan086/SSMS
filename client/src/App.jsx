@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react';
 import axios from 'axios';
 import {LayoutDashboard,GraduationCap,BookOpen,FileCheck,BriefcaseBusiness,Users,Building2,ShieldCheck,LogOut,Plus,Upload,CheckCircle2,Clock3,Search,Menu,ArrowUpRight,Activity,Target,FileText,ClipboardList,RefreshCw} from 'lucide-react';
 
-const API = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
+const API = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/+$/, '');
 const accounts=[
  {role:'STUDENT',label:'Student',email:'student@ssms.demo',icon:GraduationCap,desc:'Skills, evidence & opportunities'},
  {role:'FACULTY',label:'Faculty',email:'faculty@ssms.demo',icon:BookOpen,desc:'Review student evidence'},
